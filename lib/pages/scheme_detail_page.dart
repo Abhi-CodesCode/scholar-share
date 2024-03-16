@@ -7,14 +7,39 @@ import '../widgets/app_icons.dart';
 import '../widgets/big_text.dart';
 import '../widgets/expandable_text_widget.dart';
 
+List<String> eligibilityText=[
+  'the eligibility 1',
+  'the eligibility 2',
+  'the eligibility 3',
+  'the elegibility 4'
+];
 
+List<String> requirements=[
+  'the requirement 1',
+  'the requirement 2',
+  'the requirement 3',
+];
 class SchemeDetailPage extends StatelessWidget {
   final Map<String, dynamic> schemeData;
-
   const SchemeDetailPage({super.key, required this.schemeData});
+
 
   @override
   Widget build(BuildContext context) {
+
+
+    String title=schemeData['title'];
+    String description=schemeData['description'];
+    String img=schemeData['image'];
+
+    if (schemeData == null) {
+      // Handle the case where schemeData is null
+      return Scaffold(
+        body: Center(
+          child: Text("Scheme data is null"),
+        ),
+      );
+    }
 
     return Scaffold(
       body: Stack(
@@ -26,12 +51,10 @@ class SchemeDetailPage extends StatelessWidget {
             child: Container(
               width: double.maxFinite,
               height: Dimensions.imageHeight,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    "assets/images/carousel/code_screen1.jpg"
-                  ),
+                  image: AssetImage(img),
                 ),
               ),
             ),
@@ -47,7 +70,7 @@ class SchemeDetailPage extends StatelessWidget {
                 GestureDetector(
                   child: AppIcons(
                     icon: Icon(Icons.arrow_back),
-                    size: 42,
+                    size: Dimensions.iconSize30,
                   ),
                   onTap: () {
                     Get.back();
@@ -55,7 +78,7 @@ class SchemeDetailPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   child: AppIcons(
-                    icon: const Icon(Icons.bookmark_border_outlined,size: 35,
+                    icon: Icon(Icons.bookmark_border_outlined,size: Dimensions.iconSize30,
                     ),
                   ),
                 ),
@@ -95,13 +118,18 @@ class SchemeDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BigText(text: 'title'),
+                          BigText(text: title,),
                           SizedBox(
                             height: Dimensions.height8,
                           ),
                           ExpandableTextWidget(
-                            text: 'description',
+                            text: description,
+                            elegibiltyCrit: eligibilityText,
+                            requirements: requirements,
                           ),
+                          SizedBox(
+                            height: Dimensions.height20,
+                          )
                         ],
                       ),
                     ),
@@ -129,11 +157,11 @@ class SchemeDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UnconstrainedBox(child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: EdgeInsets.only(top: Dimensions.height8),
                   child: TextButton(onPressed: (){}, child: Row(
                     children: [
-                      Icon(Icons.report,color: Colors.black87,size: 17,),
-                      Text(" Report content",style: TextStyle(color: Colors.black87,fontSize: 16),),
+                      Icon(Icons.report,color: Colors.black87,size: Dimensions.iconSize16,),
+                      Text(" Report content",style: TextStyle(color: Colors.black87,fontSize: Dimensions.font14),),
                     ],
                   ),
             //style: ElevatedButton.styleFrom(backgroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
@@ -142,16 +170,16 @@ class SchemeDetailPage extends StatelessWidget {
                 UnconstrainedBox(
                   child: Center(
                     child: SizedBox(
-                      height: 60,
+                      height: Dimensions.height40*1.5,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: EdgeInsets.symmetric(horizontal: Dimensions.width8),
                         child: TextButton(
                           onPressed: () {  },
                           child: Padding(
-                            padding: const EdgeInsets.all(6.0),
+                            padding: EdgeInsets.all(Dimensions.width6),
                             child: Row(
                               children: [
-                                Text("Visit ",style: TextStyle(fontSize: 20,color: Colors.black87),),
+                                Text("Visit ",style: TextStyle(fontSize: Dimensions.font20,color: Colors.black87),),
                                 Icon(Icons.open_in_new,color: Colors.black,)
                               ],
                             ),

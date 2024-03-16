@@ -10,10 +10,13 @@ import '../theme/dimensions.dart';
 class ExpandableTextWidget extends StatefulWidget {
   final String text;
   final double textHeightRatio;
+  final List<String> elegibiltyCrit;
+  final List<String> requirements;
+
   const ExpandableTextWidget({
     super.key,
     required this.text,
-    this.textHeightRatio = 1,
+    this.textHeightRatio = 1, required this.elegibiltyCrit, required this.requirements,
   });
 
   @override
@@ -25,12 +28,6 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   late String secondHalf;
 
   bool hiddenText = true;
-  List<String> eligibilityText=[
-    'the eligibility 1',
-    'the eligibility 2',
-    'the eligibility 3',
-  ];
-
 
   @override
   void initState() {
@@ -96,9 +93,19 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
         ListView.builder(shrinkWrap: true,itemCount: eligibilityText.length,itemBuilder: (BuildContext context,int index){
           return Row(
             children: [
-              Text('~'),
+              Text(' ~'),
               Text(
                 eligibilityText[index],
+              ),
+            ],
+          );
+        }),
+        ListView.builder(shrinkWrap: true,itemCount: requirements.length,itemBuilder: (BuildContext context,int index){
+          return Row(
+            children: [
+              Text(' * '),
+              Text(
+                requirements[index],
               ),
             ],
           );

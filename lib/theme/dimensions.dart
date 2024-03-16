@@ -5,11 +5,13 @@ class Dimensions{
 
   static double screenHeight=Get.context!.height;
   static double screenWidth=Get.context!.width;
-  static double carouselHeight=screenHeight/4;
-  static double listImageHeight=screenHeight/6.3;
+  static double carouselHeight=screenHeight/4*(screenWidth/360);
+  static double listImageHeight=screenHeight/6.3 * (screenWidth/360);
   static double textViewContainerHeight=screenHeight/7.26;
   static double fullPageBodyHeight=screenHeight/2.52;
   static double appBarHeight=screenHeight/10.8;
+  static double exploreItemHeight=screenHeight/6.2 * screenWidth/360;
+
 
   static double height8=screenHeight/94.5;
   static double height6=screenHeight/126;
@@ -17,6 +19,7 @@ class Dimensions{
   static double height12=screenHeight/63;
   static double height15=screenHeight/50.4;
   static double height20=screenHeight/37.8;
+  static double height22=screenHeight/35.2;
   static double height30=screenHeight/25.2;
   static double height40=screenHeight/18.9;
 

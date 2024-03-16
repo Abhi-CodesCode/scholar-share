@@ -7,7 +7,6 @@ import 'package:scholar_shore/pages/logout_page.dart';
 import 'package:scholar_shore/pages/preferences.dart';
 import 'package:scholar_shore/pages/working_on.dart';
 import 'package:scholar_shore/theme/dimensions.dart';
-import 'package:scholar_shore/theme/theme_colors.dart';
 
 class ButtonData{
   final IconData icon;
@@ -26,9 +25,10 @@ class Profile extends StatelessWidget {
       ButtonData(Icons.bookmark, "Saved",const WorkingOnPage()),
       ButtonData(Icons.bug_report, "Submit a bug",BugReportPage()),
       ButtonData(Icons.info, "About Us", AboutUsPage()),
-      ButtonData(Icons.logout, "LogOut",LogOutPage()),
+      ButtonData(Icons.logout, "LogOut",const LogOutPage()),
     ];
     return Scaffold(
+      extendBody: false,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -60,7 +60,6 @@ class Profile extends StatelessWidget {
             ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(14),
-                physics:const NeverScrollableScrollPhysics(),
                 itemCount: buttonData.length,
                 itemBuilder:(BuildContext context , int index){
               return GestureDetector(
@@ -87,7 +86,8 @@ class Profile extends StatelessWidget {
                   ),
                 ),
               );
-            })
+            }),
+            SizedBox(height: 100,)
           ],
         ),
       )

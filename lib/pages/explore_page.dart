@@ -212,7 +212,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     child: Column(
                       children: [
                         Container(
-                          height: 220,
+                          height: Dimensions.exploreItemHeight,
                           decoration: BoxDecoration(
                             image: DecorationImage(image: AssetImage(MyImages.imgList[index]),fit: BoxFit.cover),
                             borderRadius: const BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
@@ -223,7 +223,6 @@ class _ExplorePageState extends State<ExplorePage> {
                               color: Colors.white,
                               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30))
                           ),
-                          height: 120,
                           width: double.maxFinite,
 
                           child: Padding(

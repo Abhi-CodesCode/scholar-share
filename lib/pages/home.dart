@@ -1,11 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:scholar_shore/helper/navigator_object.dart';
 import 'package:scholar_shore/lists.dart';
-import 'package:scholar_shore/pages/explore_page.dart';
 import 'package:scholar_shore/theme/dimensions.dart';
 import 'package:scholar_shore/theme/theme_colors.dart';
 import 'package:scholar_shore/widgets/app_icons.dart';
@@ -18,7 +15,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String,dynamic> schemeData1={'schemeName': "hello world", 'description': "namasteIndia", 'image':'assets/images/carousel/code_screen1.jpg'};
+    Map<String,dynamic> schemeData1={'title': "hello world", 'description': "namasteIndia", 'image':'assets/images/carousel/code_screen1.jpg'};
 
     int currentIndex=0;
     CarouselController carouselController = CarouselController();
@@ -170,21 +167,21 @@ class Home extends StatelessWidget {
                                         CircleAvatar(backgroundImage: AssetImage(MyImages.imgList[index]),radius:Dimensions.radius12,),
                                         SizedBox(width: Dimensions.width6,),
                                         Text("UserName",style: TextStyle(
-                                          color: ThemeColors.fontColor2,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: Dimensions.font12
+                                            color: ThemeColors.fontColor2,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: Dimensions.font12
                                         ),),
 
                                         Text(" • ",style: TextStyle(
-                                            color: ThemeColors.fontColor2,
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: Dimensions.font12,
+                                          color: ThemeColors.fontColor2,
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: Dimensions.font12,
                                         ),),
 
                                         Text("Oct 29,2023",style: TextStyle(
-                                          color: ThemeColors.fontColor2,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: Dimensions.font12
+                                            color: ThemeColors.fontColor2,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: Dimensions.font12
                                         ),)
                                       ],
                                     ),
