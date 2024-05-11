@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:scholar_shore/pages/home.dart';
-import 'package:scholar_shore/pages/scheme_detail_page.dart';
-import 'package:scholar_shore/theme/theme_colors.dart';
+import 'package:scholar_shore/theme/dimensions.dart';
 import 'package:scholar_shore/widgets/small_text.dart';
-
-import '../theme/dimensions.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
   final String text;
   final double textHeightRatio;
-  final List<String> elegibiltyCrit;
-  final List<String> requirements;
+  String eligibilityText;
+  String requirements;
 
-  const ExpandableTextWidget({
-    super.key,
+  ExpandableTextWidget({
+    Key? key,
     required this.text,
-    this.textHeightRatio = 1, required this.elegibiltyCrit, required this.requirements,
-  });
+    this.textHeightRatio = 1,
+    required this.eligibilityText,
+    required this.requirements,
+  }) : super(key: key);
 
   @override
   State<ExpandableTextWidget> createState() => _ExpandableTextWidgetState();
@@ -36,7 +33,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
     if (widget.text.length > textHeight) {
       firstHalf = widget.text.substring(0, textHeight.toInt());
       secondHalf =
-          widget.text.substring(textHeight.toInt() + 1, widget.text.length);
+          widget.text.substring(textHeight.toInt() + 1, widget.text.length )+" \n\n\nEligibility :"+widget.eligibilityText + "\n\n";
     } else {
       firstHalf = widget.text;
       secondHalf = "";
@@ -51,65 +48,68 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
         Container(
           child: secondHalf.isEmpty
               ? SmallText(
-                  text: firstHalf,
-                  relativeSize: 1.25,
-                  height: 1.4,
-                )
+            text: firstHalf,
+            relativeSize: 1.25,
+            height: 1.4,
+          )
               : Column(
+            children: [
+              SmallText(
+                text:
+                hiddenText ? ("$firstHalf...") : (firstHalf + secondHalf),
+                relativeSize: 1.25,
+                height: 1.4,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    hiddenText = !hiddenText;
+                  });
+                },
+                child: Row(
                   children: [
                     SmallText(
-                      text:
-                          hiddenText ? ("$firstHalf...") : (firstHalf + secondHalf),
-                      relativeSize: 1.25,
-                      height: 1.4,
+                      text: hiddenText ? "Show more" : "Show less",
+                      color: Colors.black, // assuming you want black color
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          hiddenText = !hiddenText;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          SmallText(
-                            text: hiddenText ? "Show more" : "Show less",
-                            color: ThemeColors.fontColor2,
-                          ),
-                          Icon(
-                            hiddenText
-                                ? Icons.arrow_drop_down
-                                : Icons.arrow_drop_up,
-                            color: ThemeColors.fontColor1,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Dimensions.height10,
+                    Icon(
+                      hiddenText
+                          ? Icons.arrow_drop_down
+                          : Icons.arrow_drop_up,
+                      color: Colors.black, // assuming you want black color
                     )
                   ],
                 ),
+              ),
+              SizedBox(
+                height: Dimensions.height10,
+              )
+            ],
+          ),
         ),
-        ListView.builder(shrinkWrap: true,itemCount: eligibilityText.length,itemBuilder: (BuildContext context,int index){
-          return Row(
-            children: [
-              Text(' ~'),
-              Text(
-                eligibilityText[index],
-              ),
-            ],
-          );
-        }),
-        ListView.builder(shrinkWrap: true,itemCount: requirements.length,itemBuilder: (BuildContext context,int index){
-          return Row(
-            children: [
-              Text(' * '),
-              Text(
-                requirements[index],
-              ),
-            ],
-          );
-        }),
+            // Wrap(
+            //   children: [
+            //
+            //     Text(
+            //
+            //       "Eligibility: "+widget.eligibilityText,
+            //     ),
+            //   ],
+            // ),
+        // ListView.builder(
+        //   shrinkWrap: true,
+        //   itemCount: widget.requirements.length,
+        //   itemBuilder: (BuildContext context, int index) {
+        //     return Row(
+        //       children: [
+        //         Text(' * '),
+        //         Text(
+        //           widget.requirements[index],
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // ),
       ],
     );
   }

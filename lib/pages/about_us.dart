@@ -12,8 +12,8 @@ class AboutUsPage extends StatelessWidget {
     'whatWeOffer3':"Connect with a vibrant community of like-minded individuals, sharing insights, experiences, and fostering a collaborative learning environment.",
     'whatWeOffer4':"Tailor your journey with personalized dashboards, notifications, and curated content to match your unique needs and goals.",
     'joinUs':"Join ScholarShare for a journey of learning, connection, and success. We're here to support and empower you, whether you're a student, educator, or professional. Let's redefine the way we learn, grow, and succeed together.",
-    'mail':"abhi.codescode@gmail.com",
-    'whatsapp':"+91 81759 66921"
+    'mail':"abhi.codescode@gmail.com / chensukhgaur444@gmail.com",
+    'whatsapp':"+91 89488-02660 / 6367718701",
   };
 
   @override

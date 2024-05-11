@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:scholar_shore/functions/profile_page_functions/profile_page_functions.dart';
 import 'package:scholar_shore/pages/working_on.dart';
 import 'package:scholar_shore/theme/dimensions.dart';
-import 'package:scholar_shore/theme/theme_colors.dart';
 
 class ButtonData{
   final IconData icon;
@@ -23,6 +22,14 @@ class EditProfilePage extends StatelessWidget {
       ButtonData(Icons.bug_report, "Submit a bug",WorkingOnPage()),
       ButtonData(Icons.logout, "LogOut",WorkingOnPage()),
     ];
+
+
+    // text editing controllers:
+
+    TextEditingController email_controller= new TextEditingController();
+    TextEditingController password_controller= new TextEditingController();
+    TextEditingController full_name_controller= new TextEditingController();
+
     return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -46,8 +53,21 @@ class EditProfilePage extends StatelessWidget {
                           CircleAvatar(foregroundImage: AssetImage("assets/images/carousel/code_screen1.jpg",),radius: 50,
                           ),
                           SizedBox(height: Dimensions.height10,),
-                          Text("User FullName",style: TextStyle(fontSize: 30),),
-                          Text("@Username",style: TextStyle(fontSize: 22),),
+                         FutureBuilder(future: get_user_details(), builder: (BuildContext context, snapshot){
+                           if(snapshot.connectionState==ConnectionState.waiting){
+                             return Center(child: CircularProgressIndicator());
+                           }
+                           else if (snapshot.hasData){
+                             var username= snapshot.data.toString();
+                             return Column(children: [
+                               Text("${username.substring(0,(username.length/2).toInt())}",style: TextStyle(fontSize: 30),),
+                               Text("@$username",style: TextStyle(fontSize: 22),),
+                             ]);
+                           }
+                           else {
+                             return Text("Error");
+                           }
+                         })
                         ]),
                   ),
 
@@ -63,6 +83,7 @@ class EditProfilePage extends StatelessWidget {
                         child: Text("Edit your Profile",style: TextStyle(fontSize: Dimensions.font20,fontWeight: FontWeight.w600),),
                       )),
                       TextField(
+                        controller: full_name_controller,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
@@ -74,6 +95,7 @@ class EditProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: Dimensions.height10,),
                       TextField(
+                        controller: email_controller,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
@@ -85,6 +107,7 @@ class EditProfilePage extends StatelessWidget {
                       ),
                       SizedBox(height: Dimensions.height10,),
                       TextField(
+                        controller: password_controller,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black)),
@@ -95,7 +118,10 @@ class EditProfilePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: Dimensions.height40,),
-                      SizedBox(width: double.maxFinite,height:Dimensions.height40*1.2,child: ElevatedButton(onPressed: () {}, child: Text("Submit",style: TextStyle(color: Colors.white,fontSize: 18.5),),style: ElevatedButton.styleFrom(backgroundColor: Colors.black87,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35))),)),
+                      SizedBox(width: double.maxFinite,height:Dimensions.height40*1.2,child: ElevatedButton(onPressed: () async{
+                        update_profile(email: email_controller.text, password: password_controller.text, full_name: full_name_controller.text);
+
+                      }, child: Text("Submit",style: TextStyle(color: Colors.white,fontSize: 18.5),),style: ElevatedButton.styleFrom(backgroundColor: Colors.black87,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35))),)),
                       SizedBox(height: Dimensions.height10*0.5,),
                       SizedBox(width: double.maxFinite,height:Dimensions.height40*1.2,child: ElevatedButton(onPressed: () {Navigator.pop(context);}, child: Text("Cancel",style: TextStyle(color: Colors.black87,fontSize: 18.5,fontWeight: FontWeight.w500),),style: ElevatedButton.styleFrom(backgroundColor: Colors.white60,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35))),)),
 

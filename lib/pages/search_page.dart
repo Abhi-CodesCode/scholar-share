@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
         posts = data!
             .map((item) => Post(
           img: item["post_image"],
-          providerName: item["posted_by"],
+          providerName: item["organization_name"],
           title: item["title"],
           description: item["description"],
         ))

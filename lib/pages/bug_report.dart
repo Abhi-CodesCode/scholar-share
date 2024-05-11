@@ -65,7 +65,7 @@ class _BugReportPageState extends State<BugReportPage> {
                 decoration: InputDecoration(labelText: 'Actual Behavior'),
               ),
               SizedBox(height: 20),
-              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black87),
+              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.black87,foregroundColor: Colors.white.withOpacity(0.9)),
                 onPressed: () {
                   // Add logic to submit bug report
                   // You may want to send this information to a server or handle it accordingly.

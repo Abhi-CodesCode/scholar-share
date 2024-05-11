@@ -10,7 +10,7 @@ class Dimensions{
   static double textViewContainerHeight=screenHeight/7.26;
   static double fullPageBodyHeight=screenHeight/2.52;
   static double appBarHeight=screenHeight/10.8;
-  static double exploreItemHeight=screenHeight/6.2 * screenWidth/360;
+  static double exploreItemHeight=screenHeight/4 * screenWidth/360;
 
 
   static double height8=screenHeight/94.5;

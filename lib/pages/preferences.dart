@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scholar_shore/constants/dbconstants.dart';
+import 'package:scholar_shore/functions/profile_page_functions/add_preferences.dart';
 import 'package:scholar_shore/lists.dart';
+import 'package:scholar_shore/main.dart';
+import 'package:scholar_shore/pages/home.dart';
+import 'package:scholar_shore/pages/mod_page.dart';
 import '../filter_controller.dart';
 
 class Preferences extends StatefulWidget {
@@ -12,7 +18,6 @@ class Preferences extends StatefulWidget {
 
 class _PreferencesState extends State<Preferences> {
   final MyController myController = Get.find();
-
   get categoryList => Categories.categoryList;
   get selectedCategoryList => Categories.selectedCategoriesList;
 
@@ -45,9 +50,22 @@ class _PreferencesState extends State<Preferences> {
                   children: [
                     Text(
                       "Choose Your Interests",
-                      style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold)  ,
                     ),
-                    IconButton(onPressed: (){myController.updateFilterCategories(selectedCategoryList);Get.offAllNamed('/home');}, icon: Icon(Icons.check))
+                    IconButton(onPressed: ()
+                    {
+                      myController.updateFilterCategories(selectedCategoryList);
+                      //update interests from here...
+                      //print("these are the categories selected by the user $selectedCategoryList");
+                      add_preferences(interest_list: selectedCategoryList);
+                      if(user!.email=="mod@gmail.com"){
+                        Get.to(ModPage());
+
+                      }else{
+                        Get.to(MyApp());
+                      }
+
+                      }, icon: Icon(Icons.check))
                   ],
                 ),
               ),

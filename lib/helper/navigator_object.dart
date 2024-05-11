@@ -12,7 +12,7 @@ class NavigatorObject extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap:() {
-        Get.toNamed('/schemeDetailPage',arguments: schemeData);
+        Get.to(() => SchemeDetailPage(schemeData: schemeData));
       },
       child: child,
     );

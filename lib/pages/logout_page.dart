@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scholar_shore/pages/login.dart';
+import 'package:scholar_shore/functions/auth/login_signup_function.dart';
+import 'package:scholar_shore/pages/login_page.dart';
 import 'package:scholar_shore/theme/dimensions.dart';
 
 class LogOutPage extends StatelessWidget {
@@ -22,9 +23,14 @@ class LogOutPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                TextButton(onPressed: (){Navigator.pop(context);}, child: Text("Cancel",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w700,fontSize: 18),),style: ElevatedButton.styleFrom(backgroundColor: Colors.white10),),
+                TextButton(onPressed:() {
+
+                  Get.back();
+                  }, child: Text("Cancel",style: TextStyle(color: Colors.black87,fontWeight: FontWeight.w700,fontSize: 18),),style: ElevatedButton.styleFrom(backgroundColor: Colors.white10),),
                 SizedBox(width: Dimensions.width20,),
-                TextButton(onPressed: (){Get.offAllNamed('/login');}, child: Text("Logout",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18),),style: ElevatedButton.styleFrom(backgroundColor: Colors.black87),),
+                TextButton(onPressed: (){
+                  logout();
+                  Get.offAllNamed('/login');}, child: Text("Logout",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18),),style: ElevatedButton.styleFrom(backgroundColor: Colors.black87),),
               ],)
             ],
           ),

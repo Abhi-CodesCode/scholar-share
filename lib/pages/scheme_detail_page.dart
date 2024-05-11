@@ -1,45 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scholar_shore/theme/theme_colors.dart';
+import 'package:scholar_shore/theme/dimensions.dart';
 
-import '../theme/dimensions.dart';
 import '../widgets/app_icons.dart';
 import '../widgets/big_text.dart';
 import '../widgets/expandable_text_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-List<String> eligibilityText=[
-  'the eligibility 1',
-  'the eligibility 2',
-  'the eligibility 3',
-  'the elegibility 4'
-];
-
-List<String> requirements=[
-  'the requirement 1',
-  'the requirement 2',
-  'the requirement 3',
-];
 class SchemeDetailPage extends StatelessWidget {
-  final Map<String, dynamic> schemeData;
-  const SchemeDetailPage({super.key, required this.schemeData});
-
+  final Map<String, dynamic>? schemeData;
+  const SchemeDetailPage({Key? key, required this.schemeData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
-    String title=schemeData['title'];
-    String description=schemeData['description'];
-    String img=schemeData['image'];
-
-    if (schemeData == null) {
-      // Handle the case where schemeData is null
+    if (schemeData == null || schemeData!.isEmpty || schemeData!['post_image'] == null) {
+      // Handle the case where schemeData is null or empty
+      //print("${schemeData!['image']} is the imageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
       return Scaffold(
         body: Center(
-          child: Text("Scheme data is null"),
+          child: Text("Scheme data is null or empty"),
         ),
       );
     }
+
+    String title = schemeData!['title'] as String? ?? "";
+    String description = schemeData!['description'] as String? ?? "";
+
+
+    var eligibilityText = schemeData!['criteria'] ?? "None specified";
+    var requirements = schemeData!['requirements']  ?? "None specified";
 
     return Scaffold(
       body: Stack(
@@ -50,11 +39,11 @@ class SchemeDetailPage extends StatelessWidget {
             right: 0,
             child: Container(
               width: double.maxFinite,
-              height: Dimensions.imageHeight,
+              height: Get.height*0.4,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(img),
+                  image: Image.network(schemeData!["post_image"]).image,
                 ),
               ),
             ),
@@ -63,25 +52,26 @@ class SchemeDetailPage extends StatelessWidget {
           Positioned(
             left: Dimensions.width20,
             right: Dimensions.width20,
-            top: (Dimensions.height40 * 5) / 4,
+            top: (Dimensions.height40 * 2)/2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  child: AppIcons(
-                    icon: Icon(Icons.arrow_back),
-                    size: Dimensions.iconSize30,
-                  ),
-                  onTap: () {
-                    Get.back();
-                  },
-                ),
-                GestureDetector(
-                  child: AppIcons(
-                    icon: Icon(Icons.bookmark_border_outlined,size: Dimensions.iconSize30,
+                 IconButton(style:IconButton.styleFrom(backgroundColor: Colors.grey.withOpacity(0.4)),
+                    icon: Icon(Icons.arrow_back, size: 30,
+                      
                     ),
-                  ),
-                ),
+
+                  onPressed: () {
+                    Get.back();
+                  }),
+                IconButton(style:IconButton.styleFrom(backgroundColor: Colors.grey.withOpacity(0.4)),
+                    icon: Icon(Icons.bookmark_border_outlined, size: 30,
+
+                    ),
+
+                    onPressed: () {
+                      Get.back();
+                    }),
               ],
             ),
           ),
@@ -118,13 +108,13 @@ class SchemeDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BigText(text: title,),
+                          BigText(text: title),
                           SizedBox(
                             height: Dimensions.height8,
                           ),
                           ExpandableTextWidget(
                             text: description,
-                            elegibiltyCrit: eligibilityText,
+                            eligibilityText: eligibilityText,
                             requirements: requirements,
                           ),
                           SizedBox(
@@ -134,67 +124,93 @@ class SchemeDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-               
                 ],
               ),
             ),
           ),
-          Positioned(bottom: 0,child: Container(
-            height: Dimensions.bottomBarHeight,
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(
-              vertical: Dimensions.height20,
-              horizontal: Dimensions.width15,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xffE5E5E5),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(Dimensions.radius30),
-                topRight: Radius.circular(Dimensions.radius30),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              height: Dimensions.bottomBarHeight,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(
+                vertical: Dimensions.height20,
+                horizontal: Dimensions.width15,
               ),
-            ),
-            child:Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                UnconstrainedBox(child: Padding(
-                  padding: EdgeInsets.only(top: Dimensions.height8),
-                  child: TextButton(onPressed: (){}, child: Row(
-                    children: [
-                      Icon(Icons.report,color: Colors.black87,size: Dimensions.iconSize16,),
-                      Text(" Report content",style: TextStyle(color: Colors.black87,fontSize: Dimensions.font14),),
-                    ],
+              decoration: BoxDecoration(
+                color: const Color(0xffE5E5E5),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Dimensions.radius30),
+                  topRight: Radius.circular(Dimensions.radius30),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  UnconstrainedBox(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: Dimensions.height8),
+                      child: TextButton(
+                        onPressed: () {Get.snackbar("Success", "Reported.");},
+                        child: Row(
+                          children: [
+                            Icon(Icons.report, color: Colors.black87, size: Dimensions.iconSize16),
+                            Text(
+                              " Report content",
+                              style: TextStyle(color: Colors.black87, fontSize: Dimensions.font14),
+                            ),
+                          ],
+                        ),
+                        //style: ElevatedButton.styleFrom(backgroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                      ),
+                    ),
                   ),
-            //style: ElevatedButton.styleFrom(backgroundColor: Colors.white,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-            ),
-                )),
-                UnconstrainedBox(
-                  child: Center(
-                    child: SizedBox(
-                      height: Dimensions.height40*1.5,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: Dimensions.width8),
-                        child: TextButton(
-                          onPressed: () {  },
-                          child: Padding(
-                            padding: EdgeInsets.all(Dimensions.width6),
-                            child: Row(
-                              children: [
-                                Text("Visit ",style: TextStyle(fontSize: Dimensions.font20,color: Colors.black87),),
-                                Icon(Icons.open_in_new,color: Colors.black,)
-                              ],
+                  UnconstrainedBox(
+                    child: Center(
+                      child: SizedBox(
+                        height: Dimensions.height40 * 1.5,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: Dimensions.width8),
+                          child: TextButton(
+                            onPressed: () async{
+                             var url= Uri.parse(schemeData!["link"]);
+
+                             if(url!=''){
+                               await launchUrl(
+                                 url,
+                                 mode: LaunchMode.inAppBrowserView,
+                               );
+                             }
+                             else{
+                               Get.snackbar("No links for this post", "The post provider has not provided any links");
+                             }
+
+
+
+
+
+
+                              },
+                            child: Padding(
+                              padding: EdgeInsets.all(Dimensions.width6),
+                              child: Row(
+                                children: [
+                                  Text("Visit ", style: TextStyle(fontSize: Dimensions.font20, color: Colors.black87)),
+                                  Icon(Icons.open_in_new, color: Colors.black)
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),)
+          ),
         ],
       ),
-    
     );
   }
 }

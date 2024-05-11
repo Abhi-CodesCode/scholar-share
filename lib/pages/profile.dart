@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scholar_shore/functions/profile_page_functions/profile_page_functions.dart';
 import 'package:scholar_shore/pages/about_us.dart';
 import 'package:scholar_shore/pages/bug_report.dart';
 import 'package:scholar_shore/pages/edit_profile_page.dart';
@@ -15,6 +16,7 @@ class ButtonData{
   ButtonData(this.icon,this.text,this.page);
 }
 class Profile extends StatelessWidget {
+  static String username='';
   const Profile({super.key});
 
   @override
@@ -26,7 +28,9 @@ class Profile extends StatelessWidget {
       ButtonData(Icons.bug_report, "Submit a bug",BugReportPage()),
       ButtonData(Icons.info, "About Us", AboutUsPage()),
       ButtonData(Icons.logout, "LogOut",const LogOutPage()),
+
     ];
+
     return Scaffold(
       extendBody: false,
       body: SingleChildScrollView(
@@ -51,8 +55,27 @@ class Profile extends StatelessWidget {
                         const CircleAvatar(foregroundImage: AssetImage("assets/images/carousel/code_screen1.jpg",),radius: 50,
                         ),
                         SizedBox(height: Dimensions.height10,),
-                        const Text("User FullName",style: TextStyle(fontSize: 30),),
-                        const Text("@Username",style: TextStyle(fontSize: 22),),
+                        FutureBuilder(
+                          future: get_user_details(),
+                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasData) {
+                              username= snapshot.data!;
+                              return Column(
+                                children: [
+                                  Text("Hi ${username.substring(0, (username.length ~/ 2))}!", style: TextStyle(fontSize: 30)),
+                                  Text("@${username}", style: TextStyle(fontSize: 22)),
+                                ],
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text("Error: ${snapshot.error.toString()}");
+                            } else {
+                              return Text("No data");
+                            }
+                          },
+                        )
+
                       ]),
                 ),
               ),
